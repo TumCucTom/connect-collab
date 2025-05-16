@@ -1,0 +1,54 @@
+// This is your Prisma schema file
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Group {
+  id        String   @id @default(uuid())
+  code      String   @unique
+  name      String
+  createdAt DateTime @default(now())
+  members   Member[]
+  clues     Clue[]
+}
+
+model Member {
+  id       String     @id @default(uuid())
+  name     String
+  groupId  String
+  group    Group      @relation(fields: [groupId], references: [id])
+  clues    Clue[]     @relation("Author")
+  solutions Solution[]
+  score    Int        @default(0)
+}
+
+model Clue {
+  id          String     @id @default(uuid())
+  text        String
+  answer      String
+  wordData    Json?      // Stores the classification of each word (indicator, fodder, definition)
+  authorId    String
+  groupId     String
+  createdAt   DateTime   @default(now())
+  author      Member     @relation("Author", fields: [authorId], references: [id])
+  group       Group      @relation(fields: [groupId], references: [id])
+  solutions   Solution[]
+}
+
+model Solution {
+  id           String   @id @default(uuid())
+  answer       String
+  correct      Boolean
+  hintsUsed    Int      @default(0)   // Track number of hints used
+  memberId     String
+  clueId       String
+  createdAt    DateTime @default(now())
+  member       Member   @relation(fields: [memberId], references: [id])
+  clue         Clue     @relation(fields: [clueId], references: [id])
+} 

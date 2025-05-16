@@ -1,0 +1,75 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/forms";
+
+:root {
+  --background: #1a1a1a;
+  --foreground: #ffffff;
+  --accent: #ff4081;
+  --accent-light: #ff80ab;
+  --gray-dark: #b0b0b0;
+  --gray-medium: #808080;
+  --gray-light: #404040;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground: #f7fafc;
+    --background: #1a202c;
+    --accent: #38bdf8;
+    --accent-light: #075985;
+    --gray-light: #334155;
+    --gray-medium: #475569;
+    --gray-dark: #94a3b8;
+  }
+}
+
+@theme {
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-purple-700: #6b21a8;
+  --color-purple-800: #5b21b6;
+  --color-gray-100: #f3f4f6;
+  --color-gray-300: #d1d5db;
+  --color-gray-600: #4b5563;
+  --color-gray-700: #374151;
+  --color-gray-800: #1f2937;
+  --color-gray-900: #111827;
+}
+
+@layer base {
+  body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--background);
+    color: var(--foreground);
+  }
+  
+}
+
+@layer components {
+  .card {
+    background-color: #2a2a2a;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .btn-primary {
+    background-color: var(--accent);
+    color: var(--foreground);
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-primary:hover {
+    background-color: var(--accent-light);
+  }
+  
+  .btn-secondary {
+    @apply bg-[color:var(--gray-medium)] hover:bg-[color:var(--gray-medium)]/80 text-[color:var(--foreground)] font-medium py-2 px-4 rounded-md transition duration-200;
+  }
+  
+  .input {
+    @apply block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-[color:var(--accent)] focus:ring focus:ring-[color:var(--accent)]/30 bg-white dark:bg-gray-900;
+  }
+}
