@@ -1,13 +1,13 @@
-import { PrismaClient } from '@prisma/client';
 import { NextResponse } from 'next/server';
+import prisma from '@/lib/prisma';
 
-const prisma = new PrismaClient();
-
+// GET /api/groups/[id]
 export async function GET(
   request: Request,
   { params }: { params: { id: string } }
 ) {
   try {
+    // Find the group
     const group = await prisma.group.findUnique({
       where: { id: params.id },
       select: {
@@ -26,7 +26,7 @@ export async function GET(
 
     return NextResponse.json(group);
   } catch (error) {
-    console.error('Failed to fetch group:', error);
+    console.error('Error fetching group:', error);
     return NextResponse.json(
       { error: 'Failed to fetch group' },
       { status: 500 }

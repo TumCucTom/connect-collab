@@ -55,8 +55,8 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-white text-black px-4 py-12 font-mono">
       <div className="max-w-xl mx-auto">
-        <h1 className="text-4xl font-bold mb-4 leading-tight">Share & Solve Cryptic Clues Together</h1>
-        <p className="text-gray-500 mb-8">Create or join a group of friends to swap cryptic crossword clues and compete.</p>
+        <h1 className="text-4xl font-bold mb-4 leading-tight">Connections Game Collaborator</h1>
+        <p className="text-gray-500 mb-8">Create or join a group to play NYT Connections-style word grouping games together.</p>
 
         {error && (
           <div className="bg-red-50 text-red-700 px-4 py-2 rounded mb-6 border border-red-200">
@@ -135,8 +135,9 @@ export default function Home() {
           <h2 className="text-xl font-bold mb-4">How It Works</h2>
           <ul className="space-y-2 text-sm text-gray-600">
             <li><strong>1. </strong>Create or join a group with a short code</li>
-            <li><strong>2. </strong>Share cryptic clues and solutions</li>
-            <li><strong>3. </strong>Track solves and see who’s on top</li>
+            <li><strong>2. </strong>Create and solve Connections puzzles</li>
+            <li><strong>3. </strong>Find the hidden categories and group words together</li>
+            <li><strong>4. </strong>Track scores and see who can solve the most connections</li>
           </ul>
         </section>
       </div>

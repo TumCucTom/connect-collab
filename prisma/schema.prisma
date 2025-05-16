@@ -15,40 +15,56 @@ model Group {
   name      String
   createdAt DateTime @default(now())
   members   Member[]
-  clues     Clue[]
+  puzzles   Puzzle[]
 }
 
 model Member {
-  id       String     @id @default(uuid())
-  name     String
-  groupId  String
-  group    Group      @relation(fields: [groupId], references: [id])
-  clues    Clue[]     @relation("Author")
-  solutions Solution[]
-  score    Int        @default(0)
+  id          String        @id @default(uuid())
+  name        String
+  groupId     String
+  group       Group         @relation(fields: [groupId], references: [id])
+  puzzles     Puzzle[]      @relation("Author")
+  attempts    Attempt[]
+  score       Int           @default(0)
 }
 
-model Clue {
+model Puzzle {
   id          String     @id @default(uuid())
-  text        String
-  answer      String
-  wordData    Json?      // Stores the classification of each word (indicator, fodder, definition)
   authorId    String
   groupId     String
   createdAt   DateTime   @default(now())
   author      Member     @relation("Author", fields: [authorId], references: [id])
   group       Group      @relation(fields: [groupId], references: [id])
-  solutions   Solution[]
+  categories  Category[]
+  attempts    Attempt[]
+  difficulty  String     @default("medium") // easy, medium, hard, very hard
 }
 
-model Solution {
-  id           String   @id @default(uuid())
-  answer       String
-  correct      Boolean
-  hintsUsed    Int      @default(0)   // Track number of hints used
+model Category {
+  id          String     @id @default(uuid())
+  name        String
+  color       String     // yellow, green, blue, purple
+  puzzleId    String
+  puzzle      Puzzle     @relation(fields: [puzzleId], references: [id], onDelete: Cascade)
+  words       Word[]
+}
+
+model Word {
+  id          String     @id @default(uuid())
+  text        String
+  categoryId  String
+  category    Category   @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+}
+
+model Attempt {
+  id           String     @id @default(uuid())
   memberId     String
-  clueId       String
-  createdAt    DateTime @default(now())
-  member       Member   @relation(fields: [memberId], references: [id])
-  clue         Clue     @relation(fields: [clueId], references: [id])
+  puzzleId     String
+  completed    Boolean    @default(false)
+  incorrectGuesses Int    @default(0)
+  score        Int        @default(0)
+  createdAt    DateTime   @default(now())
+  completedAt  DateTime?
+  member       Member     @relation(fields: [memberId], references: [id])
+  puzzle       Puzzle     @relation(fields: [puzzleId], references: [id])
 } 
